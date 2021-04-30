@@ -7,6 +7,7 @@ package Pages;
 
 import java.sql.*;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -101,7 +102,7 @@ public class Register extends javax.swing.JFrame {
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 336, Short.MAX_VALUE)
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 340, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
@@ -285,6 +286,11 @@ public class Register extends javax.swing.JFrame {
         jLabel3.setText("Name -");
 
         jTextField2.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField2KeyPressed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Serif", 0, 24)); // NOI18N
         jLabel4.setText("Contact No -");
@@ -298,6 +304,11 @@ public class Register extends javax.swing.JFrame {
                 jTextField3ActionPerformed(evt);
             }
         });
+        jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField3KeyPressed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Serif", 0, 24)); // NOI18N
         jLabel6.setText("Address -");
@@ -309,6 +320,11 @@ public class Register extends javax.swing.JFrame {
         jLabel7.setText("City -");
 
         jTextField6.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        jTextField6.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField6KeyPressed(evt);
+            }
+        });
 
         jButton7.setBackground(new java.awt.Color(153, 255, 153));
         jButton7.setFont(new java.awt.Font("Serif", 0, 11)); // NOI18N
@@ -349,6 +365,11 @@ public class Register extends javax.swing.JFrame {
         jTextField5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField5ActionPerformed(evt);
+            }
+        });
+        jTextField5.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField5KeyPressed(evt);
             }
         });
 
@@ -452,6 +473,11 @@ public class Register extends javax.swing.JFrame {
                 jTextField8ActionPerformed(evt);
             }
         });
+        jTextField8.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField8KeyPressed(evt);
+            }
+        });
 
         jLabel11.setFont(new java.awt.Font("Serif", 0, 24)); // NOI18N
         jLabel11.setText("Product Description -");
@@ -492,7 +518,6 @@ public class Register extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText(" ");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
@@ -978,6 +1003,83 @@ public class Register extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jTextField5FocusLost
+
+    private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyPressed
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_jTextField3KeyPressed
+
+    private void jTextField2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyPressed
+        // TODO add your handling code here:
+         String ContactNo = jTextField2.getText(); 
+        int length = ContactNo.length();
+        
+         char c = evt.getKeyChar();
+        
+         if(evt.getKeyChar()>='0' && evt.getKeyChar()<='9'){            
+             if(length<10){                 
+                 jTextField2.setEditable(true);               
+                }else {                
+                 jTextField2.setEditable(false);
+                }
+         }else 
+         {
+             if(evt.getExtendedKeyCode()==KeyEvent.VK_BACK_SPACE|| evt.getExtendedKeyCode()==KeyEvent.VK_DELETE){                 
+                 jTextField2.setEditable(true);
+             }else{                 
+                 jTextField2.setEditable(false);
+             }
+         }
+    }//GEN-LAST:event_jTextField2KeyPressed
+
+    private void jTextField8KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField8KeyPressed
+        // TODO add your handling code here:
+        String price= jTextField8.getText();
+        
+        int length = price.length();
+        
+         char c = evt.getKeyChar();
+        
+         if(evt.getKeyChar()>='0' && evt.getKeyChar()<='9'){
+             
+             
+                 jTextField8.setEditable(true);
+                 
+               }else 
+         {
+             if(evt.getExtendedKeyCode()==KeyEvent.VK_BACK_SPACE|| evt.getExtendedKeyCode()==KeyEvent.VK_DELETE){
+                 
+                 jTextField8.setEditable(true);
+             }else{
+                 
+                 jTextField8.setEditable(false);
+    }                                      
+         }
+    }//GEN-LAST:event_jTextField8KeyPressed
+
+    private void jTextField5KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField5KeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        
+        if(Character.isLetter(c)||Character.isWhitespace(c)||Character.isISOControl(c)){            
+            jTextField5.setEditable(true);
+        }else
+        {
+            jTextField5.setEditable(false);
+        }
+    }//GEN-LAST:event_jTextField5KeyPressed
+
+    private void jTextField6KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField6KeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        
+        if(Character.isLetter(c)||Character.isWhitespace(c)||Character.isISOControl(c)){            
+            jTextField6.setEditable(true);
+        }else
+        {
+            jTextField6.setEditable(false);
+        }
+    }//GEN-LAST:event_jTextField6KeyPressed
     
     /**
      * @param args the command line arguments

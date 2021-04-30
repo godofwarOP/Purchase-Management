@@ -7,6 +7,7 @@ package Pages;
 
 import java.awt.Color;
 import java.sql.*;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import prerequisites.Database;
@@ -85,6 +86,12 @@ public class GRN extends javax.swing.JFrame {
         });
 
         jLabel5.setText("Product Name :");
+
+        jTextField4.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField4KeyPressed(evt);
+            }
+        });
 
         jLabel6.setText("Deducted Cost :");
 
@@ -303,6 +310,23 @@ public class GRN extends javax.swing.JFrame {
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jTextField4KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField4KeyPressed
+        // TODO add your handling code here:
+        String Damagegood = jTextField4.getText();        
+        int length = Damagegood.length();        
+         char c = evt.getKeyChar();        
+         if(evt.getKeyChar()>='0' && evt.getKeyChar()<='9'){                          
+                 jTextField4.setEditable(true);                 
+               }else 
+         {
+             if(evt.getExtendedKeyCode()==KeyEvent.VK_BACK_SPACE|| evt.getExtendedKeyCode()==KeyEvent.VK_DELETE){                 
+                 jTextField4.setEditable(true);
+             }else{                 
+                 jTextField4.setEditable(false);
+    }                                      
+         }
+    }//GEN-LAST:event_jTextField4KeyPressed
     
     /**
      * @param args the command line arguments

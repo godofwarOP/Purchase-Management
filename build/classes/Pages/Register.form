@@ -123,7 +123,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabel12" pref="336" max="32767" attributes="0"/>
+                              <Component id="jLabel12" pref="340" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -488,6 +488,9 @@
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="2"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField2KeyPressed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel4">
                       <Properties>
@@ -511,6 +514,7 @@
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField3ActionPerformed"/>
+                        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField3KeyPressed"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel6">
@@ -541,6 +545,9 @@
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="2"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField6KeyPressed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="jButton7">
                       <Properties>
@@ -587,6 +594,7 @@
                       <Events>
                         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextField5FocusLost"/>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField5ActionPerformed"/>
+                        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField5KeyPressed"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel13">
@@ -723,6 +731,7 @@
                     <Component class="javax.swing.JTextField" name="jTextField8">
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField8ActionPerformed"/>
+                        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField8KeyPressed"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel11">
@@ -778,9 +787,6 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel1">
                       <Properties>
-                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="0" green="0" red="0" type="rgb"/>
-                        </Property>
                         <Property name="text" type="java.lang.String" value=" "/>
                       </Properties>
                     </Component>
