@@ -183,8 +183,8 @@ public class Excel {
             
             
             
-            FileOutputStream out = new FileOutputStream(
-            new File("product_report.xlsx"));
+            File file = new File(path + "/product_report.xlsx");
+            FileOutputStream out = new FileOutputStream(file);
             workbook.write(out);
             out.close();
             

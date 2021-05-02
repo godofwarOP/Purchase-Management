@@ -61,8 +61,8 @@ public class DistributorList extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jButton10 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         jLabel2.setBackground(new java.awt.Color(204, 255, 204));
         jLabel2.setFont(new java.awt.Font("SansSerif", 1, 48)); // NOI18N
@@ -322,17 +322,17 @@ public class DistributorList extends javax.swing.JFrame {
             }
         });
 
-        jButton8.setText("Report");
-        jButton8.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton8MouseClicked(evt);
-            }
-        });
-
         jButton9.setText("Update");
         jButton9.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton9MouseClicked(evt);
+            }
+        });
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Generate Report -", "Distributor", "Product" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
             }
         });
 
@@ -345,8 +345,8 @@ public class DistributorList extends javax.swing.JFrame {
                 .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(331, 331, 331)
-                .addComponent(jButton8)
+                .addGap(230, 230, 230)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -362,8 +362,8 @@ public class DistributorList extends javax.swing.JFrame {
                     .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton10)
                         .addComponent(jButton7)
-                        .addComponent(jButton8)
-                        .addComponent(jButton9)))
+                        .addComponent(jButton9)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(34, 34, 34)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE)
                 .addContainerGap())
@@ -601,16 +601,6 @@ public class DistributorList extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton7MouseClicked
 
-    private void jButton8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseClicked
-        // TODO add your handling code here:
-        Path path = new Path();
-        Excel excel = new Excel();
-        String savePath = path.path(this);
-        
-        excel.distributoreReport(savePath);
-        
-    }//GEN-LAST:event_jButton8MouseClicked
-
     private void jButton9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton9MouseClicked
         // TODO add your handling code here:
         Connection conn = null;
@@ -655,6 +645,23 @@ public class DistributorList extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Please select row first");
         }
     }//GEN-LAST:event_jButton9MouseClicked
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+        Path path = new Path();
+        String path1 = path.path(this);
+        Excel excel = new Excel();
+        String report = jComboBox1.getItemAt(jComboBox1.getSelectedIndex());
+        
+        if(report == "Generate Report -") return;
+                
+        if(report == "Distributor"){
+            excel.distributoreReport(path1);
+        }else if(report == "Product"){
+            excel.productReport(path1);
+        }
+        
+    }//GEN-LAST:event_jComboBox1ActionPerformed
     
     /**
      * @param args the command line arguments
@@ -688,8 +695,8 @@ public class DistributorList extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel9;
