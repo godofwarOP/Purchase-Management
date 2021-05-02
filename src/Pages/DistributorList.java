@@ -648,13 +648,14 @@ public class DistributorList extends javax.swing.JFrame {
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
+        
+        String report = jComboBox1.getItemAt(jComboBox1.getSelectedIndex());
+        if(report == "Generate Report -") return;
+            
         Path path = new Path();
         String path1 = path.path(this);
         Excel excel = new Excel();
-        String report = jComboBox1.getItemAt(jComboBox1.getSelectedIndex());
         
-        if(report == "Generate Report -") return;
-                
         if(report == "Distributor"){
             excel.distributoreReport(path1);
         }else if(report == "Product"){

@@ -361,8 +361,8 @@
                               <EmptySpace pref="32" max="32767" attributes="0"/>
                               <Component id="jTextField1" min="-2" pref="159" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jButton10" min="-2" pref="79" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="496" max="-2" attributes="0"/>
+                              <Component id="jButton10" min="-2" pref="105" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="470" max="-2" attributes="0"/>
                               <Component id="jButton7" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
@@ -410,8 +410,11 @@
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTable1MouseClicked"/>
+                  </Events>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="model = new javax.swing.table.DefaultTableModel();&#xa;GRN grn = new GRN();&#xa;jButton = new javax.swing.JButton();&#xa;String[] columnName = {&#xa;        &quot;PO Invoice&quot;, &quot;Distributor Name&quot;, &quot;Product Name&quot;, &quot;Quatity&quot;, &quot;Balance&quot;, &quot;Ship to Address&quot;, &quot; Date/Time&quot;, &quot;GRN&quot;&#xa;    };&#xa;&#xa;model.setColumnIdentifiers(columnName);&#xa;&#xa;Connection conn = null;&#xa;        Statement statement = null;&#xa;        ResultSet rst = null;&#xa;&#xa;        try {&#xa;            conn = DriverManager.getConnection(db.dbString);&#xa;            statement = conn.createStatement();&#xa;&#xa;            String sql = &quot;select * from pml&quot;;&#xa;&#xa;            rst = statement.executeQuery(sql);&#xa;&#xa;            while(rst.next()){&#xa;                model.addRow(new Object[] {rst.getString(&quot;PO_Invoice&quot;), rst.getString(&quot;Distributor_Name&quot;), rst.getString(&quot;Product&quot;), rst.getString(&quot;Quantity&quot;), rst.getString(&quot;Balance&quot;), rst.getString(&quot;Address&quot;), rst.getString(&quot;Created_On&quot;),&quot;GRN HERE&quot; });&#xa;            }&#xa;&#xa;            &#xa;&#xa;            conn.close();&#xa;            statement.close();&#xa;        } catch (SQLException e) {&#xa;            JOptionPane.showMessageDialog(rootPane, e.getMessage());&#xa;        }catch(Exception e){&#xa;            JOptionPane.showMessageDialog(rootPane, e.getMessage());&#xa;        }"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="model = new javax.swing.table.DefaultTableModel();&#xa;GRN grn = new GRN();&#xa;jButton = new javax.swing.JButton();&#xa;String[] columnName = {&#xa;        &quot;PO Invoice&quot;, &quot;Distributor Name&quot;, &quot;Product Name&quot;, &quot;Quatity&quot;, &quot;Balance&quot;, &quot;Ship to Address&quot;, &quot; Date/Time&quot;, &quot;GRN No&quot;&#xa;    };&#xa;&#xa;model.setColumnIdentifiers(columnName);&#xa;&#xa;Connection conn = null;&#xa;        Statement statement = null;&#xa;        ResultSet rst = null;&#xa;&#xa;        try {&#xa;            conn = DriverManager.getConnection(db.dbString);&#xa;            statement = conn.createStatement();&#xa;&#xa;            String sql = &quot;select * from pml&quot;;&#xa;&#xa;            rst = statement.executeQuery(sql);&#xa;&#xa;            while(rst.next()){&#xa;                model.addRow(new Object[] {rst.getString(&quot;PO_Invoice&quot;), rst.getString(&quot;Distributor_Name&quot;), rst.getString(&quot;Product&quot;), rst.getString(&quot;Quantity&quot;), rst.getString(&quot;Balance&quot;), rst.getString(&quot;Address&quot;), rst.getString(&quot;Created_On&quot;),&quot;Create GRN&quot; });&#xa;            }&#xa;&#xa;            &#xa;&#xa;            conn.close();&#xa;            statement.close();&#xa;        } catch (SQLException e) {&#xa;            JOptionPane.showMessageDialog(rootPane, e.getMessage());&#xa;        }catch(Exception e){&#xa;            JOptionPane.showMessageDialog(rootPane, e.getMessage());&#xa;        }"/>
                   </AuxValues>
                 </Component>
               </SubComponents>

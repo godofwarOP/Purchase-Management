@@ -394,16 +394,8 @@
               <SubComponents>
                 <Component class="javax.swing.JTable" name="jTable1">
                   <Properties>
-                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="7" rowCount="0">
-                        <Column editable="true" title="GRN No." type="java.lang.Integer"/>
-                        <Column editable="true" title="Distributor Name" type="java.lang.String"/>
-                        <Column editable="true" title="Distributor ID" type="java.lang.Integer"/>
-                        <Column editable="true" title="Product Name" type="java.lang.String"/>
-                        <Column editable="true" title="Ship to Address" type="java.lang.String"/>
-                        <Column editable="true" title="Damaged Product" type="java.lang.Integer"/>
-                        <Column editable="true" title="GRN Date/Time" type="java.lang.String"/>
-                      </Table>
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor" postCode="model.setColumnIdentifiers(columnaNames);">
+                      <Connection code="model" type="code"/>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="0">
@@ -448,6 +440,10 @@
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="Connection conn = null;&#xa;Statement statement = null;&#xa;ResultSet rst = null;&#xa;ResultSet rst1 = null;&#xa;&#xa;String sql = &quot;select * from grn&quot;;&#xa;String sql1 = &quot;select * from pml&quot;;&#xa;&#xa;try{&#xa;    conn = DriverManager.getConnection(db.dbString);&#xa;    statement = conn.createStatement();&#xa;    rst = statement.executeQuery(sql);&#xa;    rst1 = statement.executeQuery(sql1);&#xa;&#xa;    while(rst.next()){&#xa;        while(rst1.next()){&#xa;            model.addRow(new Object[] { &quot;GRN Number&quot;, rst.getString(&quot;PO_Invoice&quot;), rst1.getString(&quot;Distributor_Name&quot;), rst.getString(&quot;Product&quot;), &quot;Total Amount&quot;, &quot;Date&quot; });&#xa;        }&#xa;    }&#xa;&#xa;}catch(SQLException e){&#xa;    JOptionPane.showMessageDialog(rootPane, e.getMessage());&#xa;}"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="model = new javax.swing.table.DefaultTableModel();&#xa;&#xa;String[] columnaNames = {&quot;GRN No&quot;,&quot;PO Invoice&quot;,&quot;Distributor Name&quot;, &quot;Product Name&quot;,&quot;Shipping Address&quot;,&quot;Damaged Product&quot;,&quot;Total Amount&quot;,&quot;GRN Created on&quot;};"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>

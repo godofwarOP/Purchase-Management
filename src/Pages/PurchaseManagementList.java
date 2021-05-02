@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.sql.*;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.table.TableCellRenderer;
 import prerequisites.Database;
 
 /**
@@ -267,7 +268,7 @@ public class PurchaseManagementList extends javax.swing.JFrame {
         GRN grn = new GRN();
         jButton = new javax.swing.JButton();
         String[] columnName = {
-            "PO Invoice", "Distributor Name", "Product Name", "Quatity", "Balance", "Ship to Address", " Date/Time", "GRN"
+            "PO Invoice", "Distributor Name", "Product Name", "Quatity", "Balance", "Ship to Address", " Date/Time", "GRN No"
         };
 
         model.setColumnIdentifiers(columnName);
@@ -285,7 +286,7 @@ public class PurchaseManagementList extends javax.swing.JFrame {
             rst = statement.executeQuery(sql);
 
             while(rst.next()){
-                model.addRow(new Object[] {rst.getString("PO_Invoice"), rst.getString("Distributor_Name"), rst.getString("Product"), rst.getString("Quantity"), rst.getString("Balance"), rst.getString("Address"), rst.getString("Created_On"),"GRN HERE" });
+                model.addRow(new Object[] {rst.getString("PO_Invoice"), rst.getString("Distributor_Name"), rst.getString("Product"), rst.getString("Quantity"), rst.getString("Balance"), rst.getString("Address"), rst.getString("Created_On"),"Create GRN" });
             }
 
             conn.close();
@@ -296,6 +297,11 @@ public class PurchaseManagementList extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
         }
         jTable1.setModel(model);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -328,8 +334,8 @@ public class PurchaseManagementList extends javax.swing.JFrame {
                         .addContainerGap(32, Short.MAX_VALUE)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(496, 496, 496)
+                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(470, 470, 470)
                         .addComponent(jButton7))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGap(23, 23, 23)
@@ -511,6 +517,18 @@ public class PurchaseManagementList extends javax.swing.JFrame {
        dispose();
         
     }//GEN-LAST:event_jButton7MouseClicked
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        int column = 7;
+        int row = jTable1.getSelectedRow();
+        String grn = jTable1.getModel().getValueAt(row, column).toString();
+        
+        if(grn == "Create GRN"){
+            GRN grnPage = new GRN();
+            grnPage.main(null);
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
     
     /**
      * @param args the command line arguments

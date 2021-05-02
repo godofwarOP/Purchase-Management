@@ -52,7 +52,8 @@ public class Database {
                     String distributorSql = "create table if not exists " + distributoTableName + " ("+column0_Id + column1_Name +column2_ContactNo + column3_EmailId + column4_Address + column5_City + column6_RegisteredAt +")";
                     String productSql = "create table if not exists " + productTableName + "("+productName+productPricePerQuantity+productDescription+distributrId+distributorName+")";
                     String pmlSql = "create table if not exists pml (PO_Invoice integer PRIMARY KEY AUTOINCREMENT, Distributor_Name text,Product text,Quantity text, Balance text, Address text, Created_On text)";
-                    
+                    String grnSql = "create table if not exists grn (GRN_No integer PRIMARY KEY AUTOINCREMENT, Damaged_Product text, Deducted_Cost text, Total_Amount text, Date text,PO_Invoice integer)";
+                            
                     statement.execute(distributorSql);
                     System.out.println("Created Distributor Table");
                     
@@ -61,6 +62,9 @@ public class Database {
                     
                     statement.execute(pmlSql);
                     System.out.println("Created pml Table");
+                    
+                    statement.execute(grnSql);
+                    System.out.println("Created grn Table");
                 } catch (SQLException e) {
 			System.out.println("Connection Error\n " + e.getMessage());
 		}finally{

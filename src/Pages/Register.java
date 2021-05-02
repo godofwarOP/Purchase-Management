@@ -888,9 +888,7 @@ public class Register extends javax.swing.JFrame {
                }
                
                String productSql = "insert into "+db.productTableName+" (Name,Price_per_Quantity,Description,Distributor_Id,Distributor_Name) values('"+productName+"','"+priceToPay+"','"+productDescription+"',"+distributorId+",'"+distributorName+"')";
-                System.out.println(productSql);
                statement.execute(productSql);
-                System.out.println("Inserted data into Product");
                 JOptionPane.showMessageDialog(rootPane, "Successfully saved data");
                 
                 jTextField1.setText(null);

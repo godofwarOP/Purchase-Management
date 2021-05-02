@@ -262,22 +262,34 @@ public class TransactionDetails extends javax.swing.JFrame {
                 .addGap(28, 28, 28))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+        model = new javax.swing.table.DefaultTableModel();
 
-            },
-            new String [] {
-                "GRN No.", "Distributor Name", "Distributor ID", "Product Name", "Ship to Address", "Damaged Product", "GRN Date/Time"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
-            };
+        String[] columnaNames = {"GRN No","PO Invoice","Distributor Name", "Product Name","Shipping Address","Damaged Product","Total Amount","GRN Created on"};
+        jTable1.setModel(model);
+        model.setColumnIdentifiers(columnaNames);
+        Connection conn = null;
+        Statement statement = null;
+        ResultSet rst = null;
+        ResultSet rst1 = null;
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+        String sql = "select * from grn";
+        String sql1 = "select * from pml";
+
+        try{
+            conn = DriverManager.getConnection(db.dbString);
+            statement = conn.createStatement();
+            rst = statement.executeQuery(sql);
+            rst1 = statement.executeQuery(sql1);
+
+            while(rst.next()){
+                while(rst1.next()){
+                    model.addRow(new Object[] { "GRN Number", rst.getString("PO_Invoice"), rst1.getString("Distributor_Name"), rst.getString("Product"), "Total Amount", "Date" });
+                }
             }
-        });
+
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
+        }
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setPreferredWidth(3);
