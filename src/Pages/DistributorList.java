@@ -641,8 +641,6 @@ public class DistributorList extends javax.swing.JFrame {
         
         searchPatternToString += character;
         
-        System.out.println(searchPatternToString);
-        
         Connection conn = null;
         Statement statement = null;
         ResultSet rst1 = null;
