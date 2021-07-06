@@ -50,8 +50,6 @@ public class TransactionDetails extends javax.swing.JFrame {
         jPanel10 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jTextField1 = new javax.swing.JTextField();
-        jButton10 = new javax.swing.JButton();
 
         jLabel2.setBackground(new java.awt.Color(204, 255, 204));
         jLabel2.setFont(new java.awt.Font("SansSerif", 1, 48)); // NOI18N
@@ -250,7 +248,7 @@ public class TransactionDetails extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(72, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(63, 63, 63))
         );
@@ -267,23 +265,32 @@ public class TransactionDetails extends javax.swing.JFrame {
         String[] columnaNames = {"GRN No","PO Invoice","Distributor Name", "Product Name","Shipping Address","Damaged Product","Total Amount","GRN Created on"};
         jTable1.setModel(model);
         model.setColumnIdentifiers(columnaNames);
+        jTable1.setRowHeight(30);
         Connection conn = null;
         Statement statement = null;
+        Statement statement1 = null;
         ResultSet rst = null;
         ResultSet rst1 = null;
 
-        String sql = "select * from grn";
-        String sql1 = "select * from pml";
+        String sql = "select * from " + constant.TRANSACTION_TABLE_NAME;
 
         try{
-            conn = DriverManager.getConnection(db.dbString);
+            conn = DriverManager.getConnection(constant.DB_STRING);
             statement = conn.createStatement();
+            statement1 = conn.createStatement();
             rst = statement.executeQuery(sql);
-            rst1 = statement.executeQuery(sql1);
 
             while(rst.next()){
+                String grnNo = rst.getString(constant.TRANSACTION_GRN_NO);
+                String totalAmount = rst.getString(constant.TRANSACTION_TOTAL_AMOUNT);
+                String date = rst.getString(constant.TRANSACTION_CREATED_ON);
+                String invoiceNo = rst.getString(constant.TRANSACTION_PO_INVOICE);
+                String damagedProduct = rst.getString(constant.TRANSACTION_DAMAGED_PRODUCT);
+
+                String sql1 = "select * from "+ constant.BILLING_TABLE_NAME +" where "+ constant.BILLING_PO_INVOICE +" = " + invoiceNo ;
+                rst1 = statement1.executeQuery(sql1);
                 while(rst1.next()){
-                    model.addRow(new Object[] { "GRN Number", rst.getString("PO_Invoice"), rst1.getString("Distributor_Name"), rst.getString("Product"), "Total Amount", "Date" });
+                    model.addRow(new Object[] { grnNo, invoiceNo, rst1.getString("Distributor_Name"), rst1.getString("Product"), rst1.getString("Address"), damagedProduct ,totalAmount , date });
                 }
             }
 
@@ -295,42 +302,19 @@ public class TransactionDetails extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(0).setPreferredWidth(3);
         }
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-
-        jButton10.setText("Search");
-        jButton10.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton10MouseClicked(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                .addContainerGap(32, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(579, 579, 579))
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 826, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton10))
-                .addGap(18, 18, 18)
+                .addGap(70, 70, 70)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -341,10 +325,10 @@ public class TransactionDetails extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(14, 14, 14)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(27, 27, 27))
         );
         jPanel6Layout.setVerticalGroup(
@@ -474,15 +458,6 @@ public class TransactionDetails extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton5MouseClicked
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
-    private void jButton10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton10MouseClicked
-        // TODO add your handling code here:
-     
-    }//GEN-LAST:event_jButton10MouseClicked
-
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
         // TODO add your handling code here:
         PurchaseManagementList pml = new PurchaseManagementList();
@@ -508,11 +483,10 @@ public class TransactionDetails extends javax.swing.JFrame {
         });
     }
 
-    private prerequisites.Database db;
+    private prerequisites.Constant constant;
     private javax.swing.table.DefaultTableModel model;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -529,6 +503,5 @@ public class TransactionDetails extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

@@ -67,7 +67,7 @@ public class GRN extends javax.swing.JFrame {
         jTextField10 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Good Return Note");
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -449,36 +449,36 @@ public class GRN extends javax.swing.JFrame {
         ResultSet rst = null;
         
         try {
-            conn = DriverManager.getConnection(db.dbString);
+            conn = DriverManager.getConnection(constant.DB_STRING);
             statement = conn.createStatement();
             
-            String check = "SELECT EXISTS(SELECT 1 FROM grn WHERE PO_Invoice = "+ invoiceNo +")";
+            String check = "SELECT EXISTS(SELECT 1 FROM "+ constant.TRANSACTION_TABLE_NAME +" WHERE "+ constant.TRANSACTION_PO_INVOICE +" = "+ invoiceNo +")";
             rst = statement.executeQuery(check);
             
-            if(rst.getInt("EXISTS(SELECT 1 FROM grn WHERE PO_Invoice = "+ invoiceNo +")") == 0){
+            if(rst.getInt("EXISTS(SELECT 1 FROM "+ constant.TRANSACTION_TABLE_NAME +" WHERE "+ constant.TRANSACTION_PO_INVOICE +" = "+ invoiceNo +")") == 0){
                 
-                String sql = "Select * from pml where PO_Invoice = " + invoiceNo ;
+                String sql = "Select * from "+ constant.BILLING_TABLE_NAME +" where "+ constant.BILLING_PO_INVOICE +" = " + invoiceNo ;
                 rst = statement.executeQuery(sql);
             
                 String distributorName = null;
                 String productName = null;
             
                 while(rst.next()){
-                distributorName = rst.getString("Distributor_Name");
-                productName = rst.getString("Product");
-                jTextField8.setText(rst.getString("Balance"));
-                jTextField4.setText(rst.getString("Quantity"));
+                distributorName = rst.getString(constant.BILLING_DISTRIBUTOR_NAME);
+                productName = rst.getString(constant.BILLING_PRODUCT);
+                jTextField8.setText(rst.getString(constant.BILLING_BALANCE));
+                jTextField4.setText(rst.getString(constant.BILLING_QUANTITY));
             }
             
                 jTextField2.setText(distributorName);
                 jTextField6.setText(productName);
                 
-                String sql1 = "Select * from product Where Distributor_Name = '" + distributorName + "' AND Name = '"+ productName +"'" ;
+                String sql1 = "Select * from "+ constant.PRODUCT_TABLE_NAME +" Where "+ constant.PRODUCT_DISTRIBUTOR_NAME +" = '" + distributorName + "' AND "+ constant.PRODUCT_NAME +" = '"+ productName +"'" ;
             
                 rst = statement.executeQuery(sql1);
                 while(rst.next()){
-                    jTextField3.setText(rst.getString("Distributor_Id"));
-                    jTextField12.setText(rst.getString("Price_per_Quantity"));
+                    jTextField3.setText(rst.getString(constant.PRODUCT_DISTRIBUTOR_NAME));
+                    jTextField12.setText(rst.getString(constant.PRODUCT_PRICE));
                 }
                
             
@@ -559,18 +559,29 @@ public class GRN extends javax.swing.JFrame {
             String date = jTextField5.getText();
             
             try {
-              conn = DriverManager.getConnection(db.dbString);
+              conn = DriverManager.getConnection(constant.DB_STRING);
               statement = conn.createStatement();
-              String sql = "Insert into grn (Damaged_Product,Deducted_Cost,Total_Amount,Date,PO_Invoice) values('" + damagedProduct + "','" + deductedCost + "','" + totalAmount + "','" + date + "'," + invoiceNo + ")" ;
+              String sql = "Insert into "+ constant.TRANSACTION_TABLE_NAME +" ("+ constant.TRANSACTION_DAMAGED_PRODUCT + "," + constant.TRANSACTION_DEDUCTED_COST + "," + constant.TRANSACTION_TOTAL_AMOUNT + "," + constant.TRANSACTION_CREATED_ON + ","  + constant.TRANSACTION_PO_INVOICE +") values('" + damagedProduct + "','" + deductedCost + "','" + totalAmount + "','" + date + "'," + invoiceNo + ")" ;
               statement.execute(sql);
+              
+              jTextField2.setText(null);
+              jTextField3.setText(null);
+              jTextField4.setText(null);
+              jTextField5.setText(null);
+              jTextField6.setText(null);
+              jTextField7.setText(null);
+              jTextField8.setText(null);
+              jTextField9.setText(null);
+              jTextField10.setText(null);
+              jTextField11.setText(null);
+              jTextField12.setText(null);
+              jLabel2.setText(null);
               
               JOptionPane.showMessageDialog(rootPane, "GRN created and Transaction has been completed Successfully.");
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(rootPane, e.getMessage());
-            }
-            
+            } 
         }
-        
     }//GEN-LAST:event_jButton1MouseClicked
     
     /**
@@ -589,7 +600,7 @@ public class GRN extends javax.swing.JFrame {
         });
     }
 
-    private prerequisites.Database db;
+    private prerequisites.Constant constant;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

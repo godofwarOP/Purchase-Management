@@ -65,7 +65,7 @@
                       <Group type="102" attributes="0">
                           <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPanel2" pref="637" max="32767" attributes="0"/>
+                          <Component id="jPanel2" pref="635" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -296,13 +296,6 @@
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="cc" red="cc" type="rgb"/>
             </Property>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder justification="1" position="2" title="DashBoard">
-                  <Font PropertyName="font" name="SansSerif" size="14" style="0"/>
-                </TitledBorder>
-              </Border>
-            </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[0, 553]"/>
             </Property>
@@ -316,7 +309,7 @@
                       <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                       <Component id="jPanel8" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="47" max="32767" attributes="0"/>
                       <Component id="jPanel9" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -380,7 +373,7 @@
                     <Property name="text" type="java.lang.String" value="0"/>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="Connection conn = null;&#xa;Statement statement = null;&#xa;ResultSet rst1 = null;&#xa;&#xa;try{&#xa;conn = DriverManager.getConnection(db.dbString);&#xa;statement = conn.createStatement();&#xa;rst1 = statement.executeQuery(&quot;SELECT count(*) FROM distributor&quot;);&#xa;int row = 0;&#xa;while(rst1.next()){&#xa;row = rst1.getInt(&quot;COUNT(*)&quot;);&#xa;}&#xa;&#xa;jLabel4.setText(&quot;&quot;+row);&#xa;&#xa;statement.close();&#xa;conn.close();&#xa;}catch(SQLException e){&#xa;    JOptionPane.showMessageDialog(rootPane, e.getMessage());&#xa;}"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="Connection conn = null;&#xa;Statement statement = null;&#xa;ResultSet rst1 = null;&#xa;Constant constant = new Constant();&#xa;&#xa;try{&#xa;conn = DriverManager.getConnection(constant.DB_STRING);&#xa;statement = conn.createStatement();&#xa;rst1 = statement.executeQuery(&quot;SELECT count(*) FROM distributor&quot;);&#xa;int row = 0;&#xa;while(rst1.next()){&#xa;row = rst1.getInt(&quot;COUNT(*)&quot;);&#xa;}&#xa;&#xa;jLabel4.setText(&quot;&quot;+row);&#xa;&#xa;statement.close();&#xa;conn.close();&#xa;}catch(SQLException e){&#xa;    JOptionPane.showMessageDialog(rootPane, e.getMessage());&#xa;}"/>
                   </AuxValues>
                 </Component>
               </SubComponents>
@@ -428,7 +421,7 @@
                     <Property name="text" type="java.lang.String" value="0"/>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="try{&#xa;conn = DriverManager.getConnection(db.dbString);&#xa;statement = conn.createStatement();&#xa;rst1 = statement.executeQuery(&quot;SELECT count(*) FROM product&quot;);&#xa;int row = 0;&#xa;while(rst1.next()){&#xa;row = rst1.getInt(&quot;COUNT(*)&quot;);&#xa;}&#xa;statement.close();&#xa;conn.close();&#xa;&#xa;jLabel6.setText(&quot;&quot;+row);&#xa;}catch(SQLException e){&#xa;    JOptionPane.showMessageDialog(rootPane, e.getMessage());&#xa;}"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="try{&#xa;conn = DriverManager.getConnection(Constant.DB_STRING);&#xa;statement = conn.createStatement();&#xa;rst1 = statement.executeQuery(&quot;SELECT count(*) FROM product&quot;);&#xa;int row = 0;&#xa;while(rst1.next()){&#xa;row = rst1.getInt(&quot;COUNT(*)&quot;);&#xa;}&#xa;statement.close();&#xa;conn.close();&#xa;&#xa;jLabel6.setText(&quot;&quot;+row);&#xa;}catch(SQLException e){&#xa;    JOptionPane.showMessageDialog(rootPane, e.getMessage());&#xa;}"/>
                   </AuxValues>
                 </Component>
               </SubComponents>
@@ -475,6 +468,9 @@
                     <Property name="horizontalAlignment" type="int" value="0"/>
                     <Property name="text" type="java.lang.String" value="0"/>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="try{&#xa;conn = DriverManager.getConnection(constant.DB_STRING);&#xa;statement = conn.createStatement();&#xa;rst1 = statement.executeQuery(&quot;SELECT count(*) FROM &quot; + constant.TRANSACTION_TABLE_NAME);&#xa;int count = 0;&#xa;while(rst1.next()){&#xa;count = rst1.getInt(&quot;COUNT(*)&quot;);&#xa;}&#xa;statement.close();&#xa;conn.close();&#xa;&#xa;jLabel8.setText(&quot;&quot;+count);&#xa;}catch(SQLException e){&#xa;    JOptionPane.showMessageDialog(rootPane, e.getMessage());&#xa;}"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>

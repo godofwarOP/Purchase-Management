@@ -1,5 +1,9 @@
 -fixes
-1. after clicking submit button, dist name should appear on product lable
-2. After clicking add button, all fields should be cleared
-3. after clicking create po invoice button, all text fields should be cleared
-4. pml table - increase row height 
+1. after clicking submit button, dist name should appear on product lable -- done
+2. After clicking add button, all fields should be cleared -- done
+3. after clicking create po invoice button, all text fields should be cleared -- done
+4. pml table - increase row height -- done
+5. aUTO ADJUSTMENT OF TABLE as per data
+6. Biiling And invoice page -- validation for Distributor ID
+7. Biiling And invoice page --- shouldn't accept quatity required if distributor Id and product not slected. -- done
+8. Biiling And invoice page -- if we click create po without filling some details Should show error message and should not accept and save the details -- done

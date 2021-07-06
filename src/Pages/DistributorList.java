@@ -14,6 +14,8 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import prerequisites.Path;
 import Reports.Excel;
+import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -26,7 +28,7 @@ public class DistributorList extends javax.swing.JFrame {
             };
     
     String[] productColumnName = {
-        "Name","Distributor Name","Price per Quantity","Description"
+        "Name","Distributor Name / ID","Price per Quantity","Description","Availability"
     };
     public DistributorList() {
         initComponents();
@@ -59,7 +61,6 @@ public class DistributorList extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         Distributorlist = new javax.swing.JTable();
         jTextField1 = new javax.swing.JTextField();
-        jButton10 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -261,7 +262,7 @@ public class DistributorList extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(72, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(63, 63, 63))
         );
@@ -277,12 +278,13 @@ public class DistributorList extends javax.swing.JFrame {
         jButton = new javax.swing.JButton();
         Distributorlist.setModel(model);
         model.setColumnIdentifiers(columnNames);
+        Distributorlist.setRowHeight(30);
         Connection conn = null;
         Statement statement = null;
         ResultSet rst1 = null;
 
         try {
-            conn = DriverManager.getConnection(db.dbString);
+            conn = DriverManager.getConnection(constant.DB_STRING);
             statement = conn.createStatement();
 
             String sql = "select * from distributor";
@@ -290,7 +292,7 @@ public class DistributorList extends javax.swing.JFrame {
             rst1 = statement.executeQuery(sql);
 
             while(rst1.next()){
-                model.addRow(new Object[] {rst1.getString(db.Id),rst1.getString(db.Name),rst1.getString(db.ContactNo),rst1.getString(db.EmailId),rst1.getString(db.Address),rst1.getString(db.City),rst1.getString(db.RegisteredAt)});
+                model.addRow(new Object[] {rst1.getString(constant.DISTRIBUTOR_ID),rst1.getString(constant.DISTRIBUTOR_NAME),rst1.getString(constant.DISTRIBUTOR_CONTACT_NUMBER),rst1.getString(constant.DISTRIBUTOR_EMAIL_ID),rst1.getString(constant.DISTRIBUTOR_ADDRESS),rst1.getString(constant.DISTRIBUTOR_CITY),rst1.getString(constant.DISTRIBUTOR_REGISTERED_AT)});
             }
 
             conn.close();
@@ -307,11 +309,12 @@ public class DistributorList extends javax.swing.JFrame {
                 jTextField1ActionPerformed(evt);
             }
         });
-
-        jButton10.setText("Search");
-        jButton10.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton10MouseClicked(evt);
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField1KeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
             }
         });
 
@@ -343,9 +346,7 @@ public class DistributorList extends javax.swing.JFrame {
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(230, 230, 230)
+                .addGap(331, 331, 331)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton7)
@@ -360,7 +361,6 @@ public class DistributorList extends javax.swing.JFrame {
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton10)
                         .addComponent(jButton7)
                         .addComponent(jButton9)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -374,12 +374,12 @@ public class DistributorList extends javax.swing.JFrame {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 367, Short.MAX_VALUE)
-                .addGap(14, 14, 14)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27))
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
+                .addGap(24, 24, 24)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -512,48 +512,6 @@ public class DistributorList extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
-    private void jButton10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton10MouseClicked
-        // TODO add your handling code here:
-      // TODO add your handling code here:
-        model.setRowCount(0);
-        Connection conn = null;
-        Statement statement = null;
-        ResultSet rst1 = null;
-        ResultSet rst2 = null;
-        String productName = jTextField1.getText();
-        
-        try {
-            conn = DriverManager.getConnection(db.dbString);
-            statement = conn.createStatement();
-            
-            if(productName.length() == 0){
-                model.setColumnIdentifiers(columnNames);
-                 String sql = "select * from distributor";
-            
-            rst1 = statement.executeQuery(sql);
-
-            while(rst1.next()){
-                model.addRow(new Object[] {rst1.getString(db.Id),rst1.getString(db.Name),rst1.getString(db.ContactNo),rst1.getString(db.EmailId),rst1.getString(db.Address),rst1.getString(db.City),rst1.getString(db.RegisteredAt)});
-            }
-            }else{
-                model.setColumnIdentifiers(productColumnName);
-                String sql = "select * from product WHERE Name = '" + productName +"' COLLATE nocase";
-            
-                rst2 = statement.executeQuery(sql);
-            
-                while(rst2.next()){
-                    Object obj[] = {rst2.getString("Name"),rst2.getString("Distributor_Name"),rst2.getString("Price_per_Quantity"),rst2.getString("Description")};
-                    model.addRow(obj);
-                }
-            }
-           
-            conn.close();
-            statement.close();
-        } catch (SQLException e) {
-            
-        }
-    }//GEN-LAST:event_jButton10MouseClicked
-
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
         // TODO add your handling code here:
         Home home=new Home();
@@ -563,19 +521,24 @@ public class DistributorList extends javax.swing.JFrame {
 
     private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
  // TODO add your handling code here:
-         Connection conn = null;
+        Connection conn = null;
         Statement statement = null;
         ResultSet rst = null;
         
         try {
-            conn = DriverManager.getConnection(db.dbString);
+            conn = DriverManager.getConnection(constant.DB_STRING);
             statement = conn.createStatement();
             
             int column = 0;
             int row = Distributorlist.getSelectedRow();
             String id = Distributorlist.getModel().getValueAt(row, column).toString();
             
-            String sql = "DELETE FROM distributor WHERE Id = " + id;
+            String sql3 = "select exists(select 1 from "+ constant.BILLING_TABLE_NAME +" where "+ constant.BILLING_DISTRIBUTOR_ID +" = " + id + " )";
+            rst = statement.executeQuery(sql3);
+            if(rst.getInt("exists(select 1 from "+ constant.BILLING_TABLE_NAME +" where "+ constant.BILLING_DISTRIBUTOR_ID +" = " + id + " )") == 1 ){
+                JOptionPane.showMessageDialog(rootPane, "Transaction still pending ");
+            }else{
+                String sql = "DELETE FROM distributor WHERE Id = " + id;
             String sql1 = "DELETE FROM product WHERE Distributor_Id = " + id;
             statement.execute(sql);
             statement.execute(sql1);
@@ -587,7 +550,8 @@ public class DistributorList extends javax.swing.JFrame {
             rst = statement.executeQuery(sql2);
 
             while(rst.next()){
-                model.addRow(new Object[] {rst.getString(db.Id),rst.getString(db.Name),rst.getString(db.ContactNo),rst.getString(db.EmailId),rst.getString(db.Address),rst.getString(db.City),rst.getString(db.RegisteredAt)});
+                model.addRow(new Object[] {rst.getString(constant.DISTRIBUTOR_ID),rst.getString(constant.DISTRIBUTOR_NAME),rst.getString(constant.DISTRIBUTOR_CONTACT_NUMBER),rst.getString(constant.DISTRIBUTOR_EMAIL_ID),rst.getString(constant.DISTRIBUTOR_ADDRESS),rst.getString(constant.DISTRIBUTOR_CITY),rst.getString(constant.DISTRIBUTOR_REGISTERED_AT)});
+            }
             }
             
             conn.close();
@@ -608,7 +572,7 @@ public class DistributorList extends javax.swing.JFrame {
         ResultSet rst = null;
         
         try {
-            conn = DriverManager.getConnection(db.dbString);
+            conn = DriverManager.getConnection(constant.DB_STRING);
             statement = conn.createStatement();
             
             int column = 0;
@@ -622,7 +586,7 @@ public class DistributorList extends javax.swing.JFrame {
             String address = Distributorlist.getModel().getValueAt(row, 4).toString();
             String city = Distributorlist.getModel().getValueAt(row, 5).toString();
             
-            String sql = "UPDATE distributor SET Name = '"+name+"',Contact_Number = '"+contactNO+"',Email_Id = '"+emailId+"',Address = '"+address+"',City = '"+city + "' Where Id = "+id ;
+            String sql = "UPDATE distributor SET Name = '"+ name +"',Contact_Number = '"+ contactNO +"',Email_Id = '"+ emailId +"',Address = '"+ address +"',City = '"+ city + "' Where Id = "+id ;
             statement.execute(sql);
             System.out.println(sql);
             JOptionPane.showMessageDialog(rootPane, "Updated record");
@@ -633,7 +597,7 @@ public class DistributorList extends javax.swing.JFrame {
             rst = statement.executeQuery(sql1);
 
             while(rst.next()){
-                model.addRow(new Object[] {rst.getString(db.Id),rst.getString(db.Name),rst.getString(db.ContactNo),rst.getString(db.EmailId),rst.getString(db.Address),rst.getString(db.City),rst.getString(db.RegisteredAt)});
+                model.addRow(new Object[] {rst.getString(constant.DISTRIBUTOR_ID),rst.getString(constant.DISTRIBUTOR_NAME),rst.getString(constant.DISTRIBUTOR_CONTACT_NUMBER),rst.getString(constant.DISTRIBUTOR_EMAIL_ID),rst.getString(constant.DISTRIBUTOR_ADDRESS),rst.getString(constant.DISTRIBUTOR_CITY),rst.getString(constant.DISTRIBUTOR_REGISTERED_AT)});
             }
             
             conn.close();
@@ -663,6 +627,61 @@ public class DistributorList extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1KeyPressed
+
+    String searchPatternToString = "";
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        // TODO add your handling code here:
+        
+        model.setRowCount(0);
+        Character character = evt.getKeyChar();
+        
+        searchPatternToString += character;
+        
+        System.out.println(searchPatternToString);
+        
+        Connection conn = null;
+        Statement statement = null;
+        ResultSet rst1 = null;
+        ResultSet rst2 = null;
+        
+        String productName = jTextField1.getText();
+        try {
+            conn = DriverManager.getConnection(constant.DB_STRING);
+            statement = conn.createStatement();
+            
+            if(productName.length() == 0){
+                searchPatternToString = "";
+                model.setColumnIdentifiers(columnNames);
+                String sql = "select * from distributor";
+            
+            rst1 = statement.executeQuery(sql);
+
+            while(rst1.next()){
+                model.addRow(new Object[] {rst1.getString(constant.DISTRIBUTOR_ID),rst1.getString(constant.DISTRIBUTOR_NAME),rst1.getString(constant.DISTRIBUTOR_CONTACT_NUMBER),rst1.getString(constant.DISTRIBUTOR_EMAIL_ID),rst1.getString(constant.DISTRIBUTOR_ADDRESS),rst1.getString(constant.DISTRIBUTOR_CITY),rst1.getString(constant.DISTRIBUTOR_REGISTERED_AT)});
+            }
+            }else{
+                model.setColumnIdentifiers(productColumnName);
+                String sql = "select * from product WHERE Name Like '%" + searchPatternToString + "%' COLLATE nocase";
+                System.out.println(sql);
+                System.out.println(sql);
+                rst2 = statement.executeQuery(sql);
+            
+                while(rst2.next()){
+                    Object obj[] = {rst2.getString(constant.PRODUCT_NAME),rst2.getString(constant.PRODUCT_DISTRIBUTOR_NAME) + " / " + rst2.getString(constant.PRODUCT_DISTRIBUTOR_ID),rst2.getString(constant.PRODUCT_PRICE),rst2.getString(constant.PRODUCT_DESCRIPTION), rst2.getString(constant.PRODUCT_AVAILABILITY)};
+                    model.addRow(obj);
+                }
+            }
+           
+            conn.close();
+            statement.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
+        }
+    }//GEN-LAST:event_jTextField1KeyReleased
     
     /**
      * @param args the command line arguments
@@ -684,12 +703,11 @@ public class DistributorList extends javax.swing.JFrame {
     
     
     private javax.swing.JButton jButton;
-    private prerequisites.Database db;
+    private prerequisites.Constant constant;
     private javax.swing.table.DefaultTableModel model;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable Distributorlist;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;

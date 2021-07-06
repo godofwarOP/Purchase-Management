@@ -58,10 +58,10 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Component id="jPanel5" max="32767" attributes="0"/>
-                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="jPanel10" min="-2" max="-2" attributes="0"/>
-                      <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="jPanel10" max="32767" attributes="0"/>
+                      <Component id="jPanel3" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
               </Group>
@@ -321,7 +321,7 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="72" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="jLabel9" min="-2" pref="741" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
                   </Group>
@@ -355,16 +355,9 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="32" max="32767" attributes="0"/>
-                      <Component id="jTextField1" min="-2" pref="159" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jButton10" min="-2" pref="79" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="579" max="-2" attributes="0"/>
-                  </Group>
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="826" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -372,12 +365,7 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton10" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" pref="536" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -394,7 +382,7 @@
               <SubComponents>
                 <Component class="javax.swing.JTable" name="jTable1">
                   <Properties>
-                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor" postCode="model.setColumnIdentifiers(columnaNames);">
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor" postCode="model.setColumnIdentifiers(columnaNames);&#xa;jTable1.setRowHeight(30);">
                       <Connection code="model" type="code"/>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -441,25 +429,12 @@
                     </Property>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="Connection conn = null;&#xa;Statement statement = null;&#xa;ResultSet rst = null;&#xa;ResultSet rst1 = null;&#xa;&#xa;String sql = &quot;select * from grn&quot;;&#xa;String sql1 = &quot;select * from pml&quot;;&#xa;&#xa;try{&#xa;    conn = DriverManager.getConnection(db.dbString);&#xa;    statement = conn.createStatement();&#xa;    rst = statement.executeQuery(sql);&#xa;    rst1 = statement.executeQuery(sql1);&#xa;&#xa;    while(rst.next()){&#xa;        while(rst1.next()){&#xa;            model.addRow(new Object[] { &quot;GRN Number&quot;, rst.getString(&quot;PO_Invoice&quot;), rst1.getString(&quot;Distributor_Name&quot;), rst.getString(&quot;Product&quot;), &quot;Total Amount&quot;, &quot;Date&quot; });&#xa;        }&#xa;    }&#xa;&#xa;}catch(SQLException e){&#xa;    JOptionPane.showMessageDialog(rootPane, e.getMessage());&#xa;}"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="Connection conn = null;&#xa;Statement statement = null;&#xa;Statement statement1 = null;&#xa;ResultSet rst = null;&#xa;ResultSet rst1 = null;&#xa;&#xa;String sql = &quot;select * from &quot; + constant.TRANSACTION_TABLE_NAME;&#xa;&#xa;try{&#xa;    conn = DriverManager.getConnection(constant.DB_STRING);&#xa;    statement = conn.createStatement();&#xa;    statement1 = conn.createStatement();&#xa;    rst = statement.executeQuery(sql);&#xa;&#xa;    while(rst.next()){&#xa;        String grnNo = rst.getString(constant.TRANSACTION_GRN_NO);&#xa;        String totalAmount = rst.getString(constant.TRANSACTION_TOTAL_AMOUNT);&#xa;        String date = rst.getString(constant.TRANSACTION_CREATED_ON);&#xa;        String invoiceNo = rst.getString(constant.TRANSACTION_PO_INVOICE);&#xa;        String damagedProduct = rst.getString(constant.TRANSACTION_DAMAGED_PRODUCT);&#xa;&#xa;        String sql1 = &quot;select * from &quot;+ constant.BILLING_TABLE_NAME +&quot; where &quot;+ constant.BILLING_PO_INVOICE +&quot; = &quot; + invoiceNo ;&#xa;        rst1 = statement1.executeQuery(sql1);&#xa;        while(rst1.next()){&#xa;            model.addRow(new Object[] { grnNo, invoiceNo, rst1.getString(&quot;Distributor_Name&quot;), rst1.getString(&quot;Product&quot;), rst1.getString(&quot;Address&quot;), damagedProduct ,totalAmount , date });&#xa;        }&#xa;    }&#xa;&#xa;}catch(SQLException e){&#xa;    JOptionPane.showMessageDialog(rootPane, e.getMessage());&#xa;}"/>
                     <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="model = new javax.swing.table.DefaultTableModel();&#xa;&#xa;String[] columnaNames = {&quot;GRN No&quot;,&quot;PO Invoice&quot;,&quot;Distributor Name&quot;, &quot;Product Name&quot;,&quot;Shipping Address&quot;,&quot;Damaged Product&quot;,&quot;Total Amount&quot;,&quot;GRN Created on&quot;};"/>
                   </AuxValues>
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JTextField" name="jTextField1">
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField1ActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton10">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Search"/>
-              </Properties>
-              <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton10MouseClicked"/>
-              </Events>
-            </Component>
           </SubComponents>
         </Container>
       </SubComponents>

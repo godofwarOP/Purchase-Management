@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.8" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
@@ -57,11 +57,11 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="jPanel5" max="32767" attributes="0"/>
+                  <Component id="jPanel5" pref="365" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="jPanel10" min="-2" max="-2" attributes="0"/>
-                      <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="jPanel3" max="32767" attributes="0"/>
+                      <Component id="jPanel10" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
               </Group>
@@ -76,8 +76,7 @@
                       <Group type="102" attributes="0">
                           <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
-                          <Component id="jPanel10" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="jPanel10" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -344,7 +343,7 @@
                   <Font name="SansSerif" size="24" style="0"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Purchase Managemnet List"/>
+                <Property name="text" type="java.lang.String" value="Purchase Management List"/>
                 <Property name="verifyInputWhenFocusTarget" type="boolean" value="false"/>
               </Properties>
             </Component>
@@ -356,19 +355,18 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace pref="32" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
                               <Component id="jTextField1" min="-2" pref="159" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jButton10" min="-2" pref="105" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="470" max="-2" attributes="0"/>
-                              <Component id="jButton7" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jButton8" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jButton7" min="-2" pref="65" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                              <Component id="jScrollPane1" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="jScrollPane1" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -382,9 +380,10 @@
                           <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButton10" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButton7" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButton8" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="536" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -400,7 +399,7 @@
               <SubComponents>
                 <Component class="javax.swing.JTable" name="jTable1">
                   <Properties>
-                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor" postCode="jTable1.setRowHeight(30);&#xa;model.setRowCount(0);&#xa;      String[] columnName = {&#xa;        &quot;PO Invoice&quot;, &quot;Distributor Name&quot;, &quot;Product Name&quot;, &quot;Quantity&quot;, &quot;Balance&quot;, &quot;Ship to Address&quot;, &quot; Date/Time&quot;, &quot;GRN No&quot;&#xa;    };&#xa;&#xa;       model.setColumnIdentifiers(columnName);&#xa;&#xa;       Connection conn = null;&#xa;        Statement statement = null;&#xa;        Statement statement1 = null;&#xa;        ResultSet rst = null;&#xa;        ResultSet rst1 = null;&#xa;&#xa;        try {&#xa;            conn = DriverManager.getConnection(constant.DB_STRING);&#xa;            statement = conn.createStatement();&#xa;            statement1 = conn.createStatement();&#xa;            String sql = &quot;select * from &quot; + constant.BILLING_TABLE_NAME;&#xa;&#xa;            rst = statement.executeQuery(sql);&#xa;            &#xa;            while(rst.next()){&#xa;                String invoiceNo = rst.getString(constant.BILLING_PO_INVOICE);&#xa;&#xa;                String sql1 = &quot;SELECT EXISTS(SELECT 1 FROM &quot;+ constant.TRANSACTION_TABLE_NAME +&quot; WHERE &quot;+ constant.TRANSACTION_PO_INVOICE +&quot; = &quot;+ invoiceNo +&quot;)&quot;;&#xa;                rst1 = statement1.executeQuery(sql1);&#xa;&#xa;                if(rst1.getInt(&quot;EXISTS(SELECT 1 FROM &quot;+ constant.TRANSACTION_TABLE_NAME +&quot; WHERE &quot;+ constant.TRANSACTION_PO_INVOICE +&quot; = &quot;+ invoiceNo +&quot;)&quot;) == 0){&#xa;                    model.addRow(new Object[] {rst.getString(constant.BILLING_PO_INVOICE), rst.getString(constant.BILLING_DISTRIBUTOR_NAME), rst.getString(constant.BILLING_PRODUCT), rst.getString(constant.BILLING_QUANTITY), rst.getString(constant.BILLING_BALANCE), rst.getString(constant.BILLING_ADDRESS), rst.getString(constant.BILLING_CREATED_ON),&quot;Create GRN&quot; });&#xa;                }&#xa;            }&#xa;&#xa;            &#xa;&#xa;            conn.close();&#xa;            statement.close();&#xa;        } catch (SQLException e) {&#xa;            JOptionPane.showMessageDialog(rootPane, e.getMessage());&#xa;        }catch(Exception e){&#xa;            JOptionPane.showMessageDialog(rootPane, e.getMessage());&#xa;        }">
                       <Connection code="model" type="code"/>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -414,7 +413,7 @@
                     <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTable1MouseClicked"/>
                   </Events>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="model = new javax.swing.table.DefaultTableModel();&#xa;GRN grn = new GRN();&#xa;jButton = new javax.swing.JButton();&#xa;String[] columnName = {&#xa;        &quot;PO Invoice&quot;, &quot;Distributor Name&quot;, &quot;Product Name&quot;, &quot;Quatity&quot;, &quot;Balance&quot;, &quot;Ship to Address&quot;, &quot; Date/Time&quot;, &quot;GRN No&quot;&#xa;    };&#xa;&#xa;model.setColumnIdentifiers(columnName);&#xa;&#xa;Connection conn = null;&#xa;        Statement statement = null;&#xa;        ResultSet rst = null;&#xa;&#xa;        try {&#xa;            conn = DriverManager.getConnection(db.dbString);&#xa;            statement = conn.createStatement();&#xa;&#xa;            String sql = &quot;select * from pml&quot;;&#xa;&#xa;            rst = statement.executeQuery(sql);&#xa;&#xa;            while(rst.next()){&#xa;                model.addRow(new Object[] {rst.getString(&quot;PO_Invoice&quot;), rst.getString(&quot;Distributor_Name&quot;), rst.getString(&quot;Product&quot;), rst.getString(&quot;Quantity&quot;), rst.getString(&quot;Balance&quot;), rst.getString(&quot;Address&quot;), rst.getString(&quot;Created_On&quot;),&quot;Create GRN&quot; });&#xa;            }&#xa;&#xa;            &#xa;&#xa;            conn.close();&#xa;            statement.close();&#xa;        } catch (SQLException e) {&#xa;            JOptionPane.showMessageDialog(rootPane, e.getMessage());&#xa;        }catch(Exception e){&#xa;            JOptionPane.showMessageDialog(rootPane, e.getMessage());&#xa;        }"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="model = new javax.swing.table.DefaultTableModel();&#xa;GRN grn = new GRN();&#xa;jButton = new javax.swing.JButton();"/>
                   </AuxValues>
                 </Component>
               </SubComponents>
@@ -434,10 +433,19 @@
             </Component>
             <Component class="javax.swing.JButton" name="jButton7">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Purchase"/>
+                <Property name="text" type="java.lang.String" value="Bill"/>
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton7MouseClicked"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton7ActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton8">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="\ud83d\uddd8" containsInvalidXMLChars="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton8MouseClicked"/>
               </Events>
             </Component>
           </SubComponents>

@@ -54,6 +54,7 @@ public class PurchaseManagementList extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jButton10 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
 
         jLabel2.setBackground(new java.awt.Color(204, 255, 204));
         jLabel2.setFont(new java.awt.Font("SansSerif", 1, 48)); // NOI18N
@@ -244,7 +245,7 @@ public class PurchaseManagementList extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Purchase Managemnet List");
+        jLabel9.setText("Purchase Management List");
         jLabel9.setVerifyInputWhenFocusTarget(false);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -267,26 +268,38 @@ public class PurchaseManagementList extends javax.swing.JFrame {
         model = new javax.swing.table.DefaultTableModel();
         GRN grn = new GRN();
         jButton = new javax.swing.JButton();
+        jTable1.setModel(model);
+        jTable1.setRowHeight(30);
+        model.setRowCount(0);
         String[] columnName = {
-            "PO Invoice", "Distributor Name", "Product Name", "Quatity", "Balance", "Ship to Address", " Date/Time", "GRN No"
+            "PO Invoice", "Distributor Name", "Product Name", "Quantity", "Balance", "Ship to Address", " Date/Time", "GRN No"
         };
 
         model.setColumnIdentifiers(columnName);
 
         Connection conn = null;
         Statement statement = null;
+        Statement statement1 = null;
         ResultSet rst = null;
+        ResultSet rst1 = null;
 
         try {
-            conn = DriverManager.getConnection(db.dbString);
+            conn = DriverManager.getConnection(constant.DB_STRING);
             statement = conn.createStatement();
-
-            String sql = "select * from pml";
+            statement1 = conn.createStatement();
+            String sql = "select * from " + constant.BILLING_TABLE_NAME;
 
             rst = statement.executeQuery(sql);
 
             while(rst.next()){
-                model.addRow(new Object[] {rst.getString("PO_Invoice"), rst.getString("Distributor_Name"), rst.getString("Product"), rst.getString("Quantity"), rst.getString("Balance"), rst.getString("Address"), rst.getString("Created_On"),"Create GRN" });
+                String invoiceNo = rst.getString(constant.BILLING_PO_INVOICE);
+
+                String sql1 = "SELECT EXISTS(SELECT 1 FROM "+ constant.TRANSACTION_TABLE_NAME +" WHERE "+ constant.TRANSACTION_PO_INVOICE +" = "+ invoiceNo +")";
+                rst1 = statement1.executeQuery(sql1);
+
+                if(rst1.getInt("EXISTS(SELECT 1 FROM "+ constant.TRANSACTION_TABLE_NAME +" WHERE "+ constant.TRANSACTION_PO_INVOICE +" = "+ invoiceNo +")") == 0){
+                    model.addRow(new Object[] {rst.getString(constant.BILLING_PO_INVOICE), rst.getString(constant.BILLING_DISTRIBUTOR_NAME), rst.getString(constant.BILLING_PRODUCT), rst.getString(constant.BILLING_QUANTITY), rst.getString(constant.BILLING_BALANCE), rst.getString(constant.BILLING_ADDRESS), rst.getString(constant.BILLING_CREATED_ON),"Create GRN" });
+                }
             }
 
             conn.close();
@@ -296,7 +309,6 @@ public class PurchaseManagementList extends javax.swing.JFrame {
         }catch(Exception e){
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
         }
-        jTable1.setModel(model);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable1MouseClicked(evt);
@@ -317,10 +329,22 @@ public class PurchaseManagementList extends javax.swing.JFrame {
             }
         });
 
-        jButton7.setText("Purchase");
+        jButton7.setText("Bill");
         jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton7MouseClicked(evt);
+            }
+        });
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setText("🗘");
+        jButton8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton8MouseClicked(evt);
             }
         });
 
@@ -329,17 +353,17 @@ public class PurchaseManagementList extends javax.swing.JFrame {
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                        .addContainerGap(32, Short.MAX_VALUE)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(470, 470, 470)
-                        .addComponent(jButton7))
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(jScrollPane1)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
@@ -349,9 +373,10 @@ public class PurchaseManagementList extends javax.swing.JFrame {
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton10)
-                    .addComponent(jButton7))
+                    .addComponent(jButton7)
+                    .addComponent(jButton8))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
 
@@ -360,11 +385,11 @@ public class PurchaseManagementList extends javax.swing.JFrame {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
                 .addGap(14, 14, 14)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(27, 27, 27))
         );
         jPanel6Layout.setVerticalGroup(
@@ -376,8 +401,7 @@ public class PurchaseManagementList extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(7, 7, 7)
-                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         jPanel3.getAccessibleContext().setAccessibleName("Transaction Details");
@@ -494,15 +518,6 @@ public class PurchaseManagementList extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton5MouseClicked
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
-    private void jButton10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton10MouseClicked
-        // TODO add your handling code here:
-     
-    }//GEN-LAST:event_jButton10MouseClicked
-
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
         // TODO add your handling code here:
         Home home=new Home();
@@ -529,6 +544,66 @@ public class PurchaseManagementList extends javax.swing.JFrame {
             grnPage.main(null);
         }
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton10MouseClicked
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jButton10MouseClicked
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jButton8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseClicked
+        // TODO add your handling code here:
+      model.setRowCount(0);
+      String[] columnName = {
+        "PO Invoice", "Distributor Name", "Product Name", "Quatity", "Balance", "Ship to Address", " Date/Time", "GRN No"
+    };
+
+       model.setColumnIdentifiers(columnName);
+
+       Connection conn = null;
+        Statement statement = null;
+        Statement statement1 = null;
+        ResultSet rst = null;
+        ResultSet rst1 = null;
+
+        try {
+            conn = DriverManager.getConnection(constant.DB_STRING);
+            statement = conn.createStatement();
+            statement1 = conn.createStatement();
+            String sql = "select * from " + constant.BILLING_TABLE_NAME;
+
+            rst = statement.executeQuery(sql);
+            
+            while(rst.next()){
+                String invoiceNo = rst.getString(constant.BILLING_PO_INVOICE);
+
+                String sql1 = "SELECT EXISTS(SELECT 1 FROM "+ constant.TRANSACTION_TABLE_NAME +" WHERE "+ constant.TRANSACTION_PO_INVOICE +" = "+ invoiceNo +")";
+                rst1 = statement1.executeQuery(sql1);
+
+                if(rst1.getInt("EXISTS(SELECT 1 FROM "+ constant.TRANSACTION_TABLE_NAME +" WHERE "+ constant.TRANSACTION_PO_INVOICE +" = "+ invoiceNo +")") == 0){
+                    model.addRow(new Object[] {rst.getString(constant.BILLING_PO_INVOICE), rst.getString(constant.BILLING_DISTRIBUTOR_NAME), rst.getString(constant.BILLING_PRODUCT), rst.getString(constant.BILLING_QUANTITY), rst.getString(constant.BILLING_BALANCE), rst.getString(constant.BILLING_ADDRESS), rst.getString(constant.BILLING_CREATED_ON),"Create GRN" });
+                }
+            }
+
+            
+
+            conn.close();
+            statement.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
+        }
+        
+        
+    }//GEN-LAST:event_jButton8MouseClicked
     
     /**
      * @param args the command line arguments
@@ -549,7 +624,7 @@ public class PurchaseManagementList extends javax.swing.JFrame {
     }
 
     private javax.swing.JButton jButton;
-    private prerequisites.Database db;
+    private prerequisites.Constant constant;
     private javax.swing.table.DefaultTableModel model;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -560,6 +635,7 @@ public class PurchaseManagementList extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel9;

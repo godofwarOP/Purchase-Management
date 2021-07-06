@@ -57,13 +57,13 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="jPanel5" pref="367" max="32767" attributes="0"/>
-                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="jPanel10" min="-2" max="-2" attributes="0"/>
-                      <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jPanel5" pref="395" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="jPanel10" max="32767" attributes="0"/>
+                      <Component id="jPanel3" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -321,7 +321,7 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="72" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="jLabel9" min="-2" pref="741" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
                   </Group>
@@ -358,9 +358,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jTextField1" pref="179" max="32767" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jButton10" min="-2" pref="91" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="230" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="331" max="-2" attributes="0"/>
                       <Component id="jComboBox1" min="-2" pref="172" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jButton7" min="-2" max="-2" attributes="0"/>
@@ -377,7 +375,6 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jTextField1" alignment="1" min="-2" pref="24" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jButton10" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jButton7" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jButton9" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jComboBox1" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
@@ -400,7 +397,7 @@
               <SubComponents>
                 <Component class="javax.swing.JTable" name="Distributorlist">
                   <Properties>
-                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor" postCode="model.setColumnIdentifiers(columnNames);">
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor" postCode="model.setColumnIdentifiers(columnNames);&#xa;Distributorlist.setRowHeight(30);">
                       <Connection code="model" type="code"/>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -447,7 +444,7 @@
                     </Property>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="Connection conn = null;&#xa;        Statement statement = null;&#xa;        ResultSet rst1 = null;&#xa;&#xa;        try {&#xa;            conn = DriverManager.getConnection(db.dbString);&#xa;            statement = conn.createStatement();&#xa;&#xa;            String sql = &quot;select * from distributor&quot;;&#xa;&#xa;            rst1 = statement.executeQuery(sql);&#xa;&#xa;            while(rst1.next()){&#xa;                model.addRow(new Object[] {rst1.getString(db.Id),rst1.getString(db.Name),rst1.getString(db.ContactNo),rst1.getString(db.EmailId),rst1.getString(db.Address),rst1.getString(db.City),rst1.getString(db.RegisteredAt)});&#xa;            }&#xa;&#xa;            conn.close();&#xa;            statement.close();&#xa;        } catch (SQLException e) {&#xa;            JOptionPane.showMessageDialog(rootPane, e.getMessage());&#xa;        }catch(Exception e){&#xa;            JOptionPane.showMessageDialog(rootPane, e.getMessage());&#xa;        }"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="Connection conn = null;&#xa;        Statement statement = null;&#xa;        ResultSet rst1 = null;&#xa;&#xa;        try {&#xa;            conn = DriverManager.getConnection(constant.DB_STRING);&#xa;            statement = conn.createStatement();&#xa;&#xa;            String sql = &quot;select * from distributor&quot;;&#xa;&#xa;            rst1 = statement.executeQuery(sql);&#xa;&#xa;            while(rst1.next()){&#xa;                model.addRow(new Object[] {rst1.getString(constant.DISTRIBUTOR_ID),rst1.getString(constant.DISTRIBUTOR_NAME),rst1.getString(constant.DISTRIBUTOR_CONTACT_NUMBER),rst1.getString(constant.DISTRIBUTOR_EMAIL_ID),rst1.getString(constant.DISTRIBUTOR_ADDRESS),rst1.getString(constant.DISTRIBUTOR_CITY),rst1.getString(constant.DISTRIBUTOR_REGISTERED_AT)});&#xa;            }&#xa;&#xa;            conn.close();&#xa;            statement.close();&#xa;        } catch (SQLException e) {&#xa;            JOptionPane.showMessageDialog(rootPane, e.getMessage());&#xa;        }catch(Exception e){&#xa;            JOptionPane.showMessageDialog(rootPane, e.getMessage());&#xa;        }"/>
                     <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="model = new javax.swing.table.DefaultTableModel();&#xa;jButton = new javax.swing.JButton();"/>
                   </AuxValues>
                 </Component>
@@ -456,14 +453,8 @@
             <Component class="javax.swing.JTextField" name="jTextField1">
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField1ActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton10">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Search"/>
-              </Properties>
-              <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton10MouseClicked"/>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField1KeyPressed"/>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField1KeyReleased"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButton7">

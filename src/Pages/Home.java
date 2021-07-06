@@ -10,6 +10,7 @@ import java.sql.*;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import prerequisites.Database;
+import prerequisites.Constant;
 
 /**
  *
@@ -60,6 +61,7 @@ public class Home extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Home");
         setBackground(new java.awt.Color(255, 255, 255));
+        getContentPane().setLayout(new java.awt.BorderLayout());
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -235,7 +237,6 @@ public class Home extends javax.swing.JFrame {
         jPanel5.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-6, 310, 370, 430));
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "DashBoard", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP, new java.awt.Font("SansSerif", 0, 14))); // NOI18N
         jPanel2.setPreferredSize(new java.awt.Dimension(0, 553));
 
         jPanel4.setBackground(new java.awt.Color(204, 255, 204));
@@ -250,9 +251,10 @@ public class Home extends javax.swing.JFrame {
         Connection conn = null;
         Statement statement = null;
         ResultSet rst1 = null;
+        Constant constant = new Constant();
 
         try{
-            conn = DriverManager.getConnection(db.dbString);
+            conn = DriverManager.getConnection(constant.DB_STRING);
             statement = conn.createStatement();
             rst1 = statement.executeQuery("SELECT count(*) FROM distributor");
             int row = 0;
@@ -293,7 +295,7 @@ public class Home extends javax.swing.JFrame {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("0");
         try{
-            conn = DriverManager.getConnection(db.dbString);
+            conn = DriverManager.getConnection(Constant.DB_STRING);
             statement = conn.createStatement();
             rst1 = statement.executeQuery("SELECT count(*) FROM product");
             int row = 0;
@@ -332,6 +334,21 @@ public class Home extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Serif", 1, 48)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("0");
+        try{
+            conn = DriverManager.getConnection(constant.DB_STRING);
+            statement = conn.createStatement();
+            rst1 = statement.executeQuery("SELECT count(*) FROM " + constant.TRANSACTION_TABLE_NAME);
+            int count = 0;
+            while(rst1.next()){
+                count = rst1.getInt("COUNT(*)");
+            }
+            statement.close();
+            conn.close();
+
+            jLabel8.setText(""+count);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
+        }
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -357,7 +374,7 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(45, 45, 45)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -414,7 +431,7 @@ public class Home extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 635, Short.MAX_VALUE)
                         .addContainerGap())))
         );
 

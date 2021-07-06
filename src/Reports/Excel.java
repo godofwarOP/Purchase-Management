@@ -21,52 +21,11 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFRow;
-import prerequisites.Database;
+import prerequisites.Constant;
 
 public class Excel {
-    private static prerequisites.Database db;
-    
-    
-    public void pdf() throws IOException{
-      //Loading an existing document
-      
-      PDDocument document = new PDDocument();
-      PDPage my_page = new PDPage();
-      document.addPage(my_page);
-      document.save("test.pdf");
-      
-      File file = new File("test.pdf");
-      //Retrieving the pages of the document 
-      PDDocument doc =  document.load(file);
-      PDPage page = doc.getPage(0);
-      PDPageContentStream contentStream = new PDPageContentStream(doc, page);
-      
-      contentStream.beginText(); 
-      contentStream.setLeading(14.5f);
-      contentStream.setFont(PDType1Font.TIMES_BOLD, 24);
-      contentStream.newLineAtOffset(25, 700);
-      String text = "Invoice";
-      contentStream.showText(text);
-      contentStream.newLine();
-      contentStream.newLine();
-      contentStream.setFont(PDType1Font.TIMES_ROMAN,12);
-      contentStream.showText("Dealer Name - " + "Pratik Gahane");
-      contentStream.newLine();
-      contentStream.setFont(PDType1Font.TIMES_ROMAN,8);
-      contentStream.showText("pratik19gahane@gmail.com");
-      contentStream.endText();
-      contentStream.close();
-      System.out.println("Content added");
+    private static prerequisites.Constant constant;
 
-      //Closing the content stream
-      
-
-      //Saving the document
-      doc.save(new File("new_pdf.pdf"));
-
-      //Closing the document
-      doc.close();
-    }
     
     public void distributoreReport(String path){
         Connection conn = null;
@@ -74,10 +33,11 @@ public class Excel {
         ResultSet rst = null;
         
         try {
-            conn = DriverManager.getConnection(db.dbString);
+            conn = DriverManager.getConnection(constant.DB_STRING);
             statement = conn.createStatement();
             
-            String sql = "Select * from distributor";
+            String sql = "Select * from " + constant.DISTRIBUTOR_TABLE_NAME;
+            System.out.println(sql);
             
             XSSFWorkbook workbook = new XSSFWorkbook();
             XSSFSheet spreadsheet = workbook.createSheet(" Distributor Report ");
@@ -99,7 +59,7 @@ public class Excel {
             
             int count = 2;
             while(rst.next()){
-              studentData.put(Integer.toString(count), new Object[] { rst.getString("Id"), rst.getString("Name"), rst.getString("Contact_Number"),rst.getString("Email_Id"),rst.getString("Address"),rst.getString("City"),rst.getString("RegisteredAt") }); 
+              studentData.put(Integer.toString(count), new Object[] { rst.getString(constant.DISTRIBUTOR_ID), rst.getString(constant.DISTRIBUTOR_NAME), rst.getString(constant.DISTRIBUTOR_CONTACT_NUMBER),rst.getString(constant.DISTRIBUTOR_EMAIL_ID),rst.getString(constant.DISTRIBUTOR_ADDRESS),rst.getString(constant.DISTRIBUTOR_CITY),rst.getString(constant.DISTRIBUTOR_REGISTERED_AT) }); 
               count++;
             }
             
@@ -136,10 +96,10 @@ public class Excel {
         ResultSet rst = null;
         
         try {
-            conn = DriverManager.getConnection(db.dbString);
+            conn = DriverManager.getConnection(constant.DB_STRING);
             statement = conn.createStatement();
             
-            String sql = "Select * from product";
+            String sql = "Select * from " + constant.PRODUCT_TABLE_NAME;
             
             XSSFWorkbook workbook = new XSSFWorkbook();
             XSSFSheet spreadsheet = workbook.createSheet(" Product Report ");
@@ -161,7 +121,7 @@ public class Excel {
             
             int count = 2;
             while(rst.next()){
-              studentData.put(Integer.toString(count), new Object[] { rst.getString("Distributor_Id"),rst.getString("Distributor_Name"), rst.getString("Name"), rst.getString("Price_per_Quantity"),rst.getString("Description") }); 
+              studentData.put(Integer.toString(count), new Object[] { rst.getString(constant.PRODUCT_DISTRIBUTOR_ID),rst.getString(constant.PRODUCT_DISTRIBUTOR_NAME), rst.getString(constant.PRODUCT_NAME), rst.getString(constant.PRODUCT_NAME),rst.getString(constant.PRODUCT_DESCRIPTION) }); 
               count++;
             }
             
