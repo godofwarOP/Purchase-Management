@@ -588,7 +588,6 @@ public class DistributorList extends javax.swing.JFrame {
             
             String sql = "UPDATE distributor SET Name = '"+ name +"',Contact_Number = '"+ contactNO +"',Email_Id = '"+ emailId +"',Address = '"+ address +"',City = '"+ city + "' Where Id = "+id ;
             statement.execute(sql);
-            System.out.println(sql);
             JOptionPane.showMessageDialog(rootPane, "Updated record");
             
             model.setRowCount(0);
@@ -632,14 +631,13 @@ public class DistributorList extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1KeyPressed
 
-    String searchPatternToString = "";
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
         // TODO add your handling code here:
+        String blacklistedKeys = "16 17 18 10";
+        String keyCode = Integer.toString(evt.getKeyCode());
+        if(blacklistedKeys.contains(keyCode)) return;
         
         model.setRowCount(0);
-        Character character = evt.getKeyChar();
-        
-        searchPatternToString += character;
         
         Connection conn = null;
         Statement statement = null;
@@ -652,7 +650,6 @@ public class DistributorList extends javax.swing.JFrame {
             statement = conn.createStatement();
             
             if(productName.length() == 0){
-                searchPatternToString = "";
                 model.setColumnIdentifiers(columnNames);
                 String sql = "select * from distributor";
             
@@ -663,9 +660,7 @@ public class DistributorList extends javax.swing.JFrame {
             }
             }else{
                 model.setColumnIdentifiers(productColumnName);
-                String sql = "select * from product WHERE Name Like '%" + searchPatternToString + "%' COLLATE nocase";
-                System.out.println(sql);
-                System.out.println(sql);
+                String sql = "select * from product WHERE Name Like '%" + productName + "%' COLLATE nocase";
                 rst2 = statement.executeQuery(sql);
             
                 while(rst2.next()){

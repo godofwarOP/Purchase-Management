@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Stack;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import prerequisites.Database;
 import prerequisites.Constant;
@@ -304,6 +305,11 @@ public class Register extends javax.swing.JFrame {
         jLabel5.setText("Email Id -");
 
         jTextField3.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        jTextField3.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextField3FocusLost(evt);
+            }
+        });
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField3ActionPerformed(evt);
@@ -420,11 +426,9 @@ public class Register extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(24, 24, 24))
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField5))
+                    .addComponent(jTextField5)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -767,21 +771,9 @@ public class Register extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton1MouseClicked
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
-
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
-
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
-
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
 
     private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
         // TODO add your handling code here:
@@ -799,18 +791,6 @@ public class Register extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton9ActionPerformed
 
-    private void jButton8MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseEntered
-        // TODO add your handling code here:
-        jButton8.setBackground(Color.red);
-        jButton8.setForeground(Color.white);
-    }//GEN-LAST:event_jButton8MouseEntered
-
-    private void jButton8MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseExited
-        // TODO add your handling code here:
-        jButton8.setBackground(Color.WHITE);
-        jButton8.setForeground(Color.BLACK);
-    }//GEN-LAST:event_jButton8MouseExited
-
     private void jButton10MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton10MouseEntered
         // TODO add your handling code here:
         jButton10.setBackground(Color.red);
@@ -823,16 +803,6 @@ public class Register extends javax.swing.JFrame {
         jButton10.setForeground(Color.BLACK);
     }//GEN-LAST:event_jButton10MouseExited
 
-    private void jButton8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseClicked
-        // TODO add your handling code here:
-        jTextField5.setText(null);
-        jTextField2.setText(null);
-        jTextField3.setText(null);
-        jTextField4.setText(null);
-        jTextField6.setText(null);
-        
-    }//GEN-LAST:event_jButton8MouseClicked
-
     private void jButton10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton10MouseClicked
         // TODO add your handling code here:
         jTextField1.setText(null);
@@ -843,57 +813,6 @@ public class Register extends javax.swing.JFrame {
         jLabel1.setText(null);
     }//GEN-LAST:event_jButton10MouseClicked
     
-    private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
-        // TODO add your handling code here:
-        String name = jTextField5.getText().trim();
-        String contactNo = jTextField2.getText().trim();
-        String emailId = jTextField3.getText().trim();
-        String address = jTextField4.getText().trim();
-        String city = jTextField6.getText().trim();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
-        Date date = new Date(); 
-        String registeredAt = formatter.format(date);
-        
-        
-        try {
-            Connection conn = null;
-            Statement statement = null;
-            ResultSet rst = null;
-            try{
-               conn = DriverManager.getConnection(constant.DB_STRING);
-               statement = conn.createStatement();
-               String distributorSql = "insert into " + constant.DISTRIBUTOR_TABLE_NAME + " ("+ constant.DISTRIBUTOR_NAME +","+ constant.DISTRIBUTOR_CONTACT_NUMBER +"," + constant.DISTRIBUTOR_EMAIL_ID +"," + constant.DISTRIBUTOR_ADDRESS +"," + constant.DISTRIBUTOR_CITY +"," + constant.DISTRIBUTOR_REGISTERED_AT +") "+ "values('"+ name +"','"+ contactNo+"','" + emailId+"','" + address+"','" + city+"','" + registeredAt+"')";
-                System.out.println(distributorSql);
-               statement.execute(distributorSql);
-                System.out.println("Inserted data into distributor");
-                JOptionPane.showMessageDialog(rootPane, "Successfully saved data");
-                
-                String sql = "Select * from "+ constant.DISTRIBUTOR_TABLE_NAME +" Where "+ constant.DISTRIBUTOR_NAME +" = '" + name + "'";
-                
-                rst = statement.executeQuery(sql);
-                while(rst.next()){
-                    jTextField1.setText(rst.getString(constant.DISTRIBUTOR_ID));
-                    jLabel1.setText(rst.getString(constant.DISTRIBUTOR_NAME));
-                }
-                
-                jTextField5.setText(null);
-                jTextField2.setText(null);
-                jTextField3.setText(null);
-                jTextField4.setText(null);
-                jTextField6.setText(null);
-               
-            }catch(SQLException e){
-                System.out.println("Insertion Error \n"+e.getMessage());
-                e.printStackTrace();
-            }finally{
-                conn.close();
-                statement.close();
-            }
-        } catch (Exception e) {
-            System.out.println("Something went wrong while inserting data into database\n"+e.getMessage());
-        }
-    }//GEN-LAST:event_jButton7MouseClicked
-
     private void jButton9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton9MouseClicked
         // TODO add your handling code here:
         String distributorId = jTextField1.getText();
@@ -901,6 +820,23 @@ public class Register extends javax.swing.JFrame {
         String priceToPay = jTextField8.getText();
         String productDescription = jTextField9.getText();
         String availableProduct = jTextField10.getText();
+        
+        if(distributorId.length() < 1){
+            JOptionPane.showMessageDialog(rootPane, "Empty Field is not allowed");
+            return;
+        }else if(productName.length() < 1){
+            JOptionPane.showMessageDialog(rootPane, "Empty Field is not allowed");
+            return;
+        }else if(priceToPay.length() < 1){
+            JOptionPane.showMessageDialog(rootPane, "Empty Field is not allowed");
+            return;
+        }else if(productDescription.length() < 1){
+            JOptionPane.showMessageDialog(rootPane, "Empty Field is not allowed");
+            return;
+        }else if(availableProduct.length() < 1){
+            JOptionPane.showMessageDialog(rootPane, "Empty Field is not allowed");
+            return;
+        }
         
         try {
             Connection conn = null;
@@ -1006,64 +942,6 @@ public class Register extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton3MouseClicked
 
-    private void jTextField5FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField5FocusLost
-        // TODO add your handling code here:
-        String name = jTextField5.getText();
-        
-        String sql = "EXISTS(SELECT 1 FROM distributor WHERE Name= '"+ name +"')";
-        String sql1 = "SELECT " + sql;
-        
-        Connection conn = null;
-        Statement statement = null;
-        ResultSet rst = null;
-        
-        try {
-            conn = DriverManager.getConnection(constant.DB_STRING);
-            statement = conn.createStatement();
-            
-            rst = statement.executeQuery(sql1);
-            
-            String exists = null;
-            while(rst.next()){
-                exists = rst.getString(sql);
-            }
-            
-            if(exists == "1"){
-                jLabel13.setText("Distributor already exists");
-            }
-        } catch (Exception e) {
-        }
-        
-    }//GEN-LAST:event_jTextField5FocusLost
-
-    private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyPressed
-        // TODO add your handling code here:
-       
-    }//GEN-LAST:event_jTextField3KeyPressed
-
-    private void jTextField2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyPressed
-        // TODO add your handling code here:
-         String ContactNo = jTextField2.getText(); 
-        int length = ContactNo.length();
-        
-         char c = evt.getKeyChar();
-        
-         if(evt.getKeyChar()>='0' && evt.getKeyChar()<='9'){            
-             if(length<10){                 
-                 jTextField2.setEditable(true);               
-                }else {                
-                 jTextField2.setEditable(false);
-                }
-         }else 
-         {
-             if(evt.getExtendedKeyCode()==KeyEvent.VK_BACK_SPACE|| evt.getExtendedKeyCode()==KeyEvent.VK_DELETE){                 
-                 jTextField2.setEditable(true);
-             }else{                 
-                 jTextField2.setEditable(false);
-             }
-         }
-    }//GEN-LAST:event_jTextField2KeyPressed
-
     private void jTextField8KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField8KeyPressed
         // TODO add your handling code here:
         String price= jTextField8.getText();
@@ -1092,20 +970,153 @@ public class Register extends javax.swing.JFrame {
     private void jTextField5KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField5KeyPressed
         // TODO add your handling code here:
         char c = evt.getKeyChar();
-        
-        if(Character.isLetter(c)||Character.isWhitespace(c)||Character.isISOControl(c)){            
+
+        if(Character.isLetter(c)||Character.isWhitespace(c)||Character.isISOControl(c)){
             jTextField5.setEditable(true);
+            jLabel13.setText(null);
         }else
         {
             jTextField5.setEditable(false);
+            jLabel13.setText("only characters are allowed");
         }
     }//GEN-LAST:event_jTextField5KeyPressed
+
+    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField5ActionPerformed
+
+    private void jTextField5FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField5FocusLost
+        // TODO add your handling code here:
+        String name = jTextField5.getText();
+
+        String sql = "EXISTS(SELECT 1 FROM distributor WHERE Name= '"+ name +"')";
+        String sql1 = "SELECT " + sql;
+
+        Connection conn = null;
+        Statement statement = null;
+        ResultSet rst = null;
+
+        try {
+            conn = DriverManager.getConnection(constant.DB_STRING);
+            statement = conn.createStatement();
+
+            rst = statement.executeQuery(sql1);
+
+            String exists = null;
+            while(rst.next()){
+                exists = rst.getString(sql);
+            }
+
+            if(exists == "1"){
+                jLabel13.setText("Distributor already exists");
+            }
+        } catch (Exception e) {
+        }
+
+    }//GEN-LAST:event_jTextField5FocusLost
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton8MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseExited
+        // TODO add your handling code here:
+        jButton8.setBackground(Color.WHITE);
+        jButton8.setForeground(Color.BLACK);
+    }//GEN-LAST:event_jButton8MouseExited
+
+    private void jButton8MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseEntered
+        // TODO add your handling code here:
+        jButton8.setBackground(Color.red);
+        jButton8.setForeground(Color.white);
+    }//GEN-LAST:event_jButton8MouseEntered
+
+    private void jButton8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseClicked
+        // TODO add your handling code here:
+        jTextField5.setText(null);
+        jTextField2.setText(null);
+        jTextField3.setText(null);
+        jTextField4.setText(null);
+        jTextField6.setText(null);
+
+    }//GEN-LAST:event_jButton8MouseClicked
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
+        // TODO add your handling code here:
+        String name = jTextField5.getText().trim();
+        String contactNo = jTextField2.getText().trim();
+        String emailId = jTextField3.getText().trim();
+        String address = jTextField4.getText().trim();
+        String city = jTextField6.getText().trim();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        String registeredAt = formatter.format(date);
+
+        if(name.length() < 1){
+           JOptionPane.showMessageDialog(rootPane, "Empty field is not allowed");
+           return;
+        }else if(contactNo.length() < 1){
+           JOptionPane.showMessageDialog(rootPane, "Empty field is not allowed");
+           return;
+        }else if(emailId.length() < 1){
+          JOptionPane.showMessageDialog(rootPane, "Empty field is not allowed");
+          return;
+        }else if(address.length() < 1){
+           JOptionPane.showMessageDialog(rootPane, "Empty field is not allowed"); 
+           return;        
+        }else if(city.length() < 1){
+           JOptionPane.showMessageDialog(rootPane, "Empty field is not allowed");
+           return;
+        }
+        
+        try {
+            Connection conn = null;
+            Statement statement = null;
+            ResultSet rst = null;
+            try{
+                conn = DriverManager.getConnection(constant.DB_STRING);
+                statement = conn.createStatement();
+                String distributorSql = "insert into " + constant.DISTRIBUTOR_TABLE_NAME + " ("+ constant.DISTRIBUTOR_NAME +","+ constant.DISTRIBUTOR_CONTACT_NUMBER +"," + constant.DISTRIBUTOR_EMAIL_ID +"," + constant.DISTRIBUTOR_ADDRESS +"," + constant.DISTRIBUTOR_CITY +"," + constant.DISTRIBUTOR_REGISTERED_AT +") "+ "values('"+ name +"','"+ contactNo+"','" + emailId+"','" + address+"','" + city+"','" + registeredAt.trim()+"')";
+                System.out.println(distributorSql);
+                statement.execute(distributorSql);
+                System.out.println("Inserted data into distributor");
+                JOptionPane.showMessageDialog(rootPane, "Successfully saved data");
+
+                String sql = "Select * from "+ constant.DISTRIBUTOR_TABLE_NAME +" Where "+ constant.DISTRIBUTOR_NAME +" = '" + name + "'";
+
+                rst = statement.executeQuery(sql);
+                while(rst.next()){
+                    jTextField1.setText(rst.getString(constant.DISTRIBUTOR_ID));
+                    jLabel1.setText(rst.getString(constant.DISTRIBUTOR_NAME));
+                }
+
+                jTextField5.setText(null);
+                jTextField2.setText(null);
+                jTextField3.setText(null);
+                jTextField4.setText(null);
+                jTextField6.setText(null);
+
+            }catch(SQLException e){
+                System.out.println("Insertion Error \n"+e.getMessage());
+                e.printStackTrace();
+            }finally{
+                conn.close();
+                statement.close();
+            }
+        } catch (Exception e) {
+            System.out.println("Something went wrong while inserting data into database\n"+e.getMessage());
+        }
+    }//GEN-LAST:event_jButton7MouseClicked
 
     private void jTextField6KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField6KeyPressed
         // TODO add your handling code here:
         char c = evt.getKeyChar();
-        
-        if(Character.isLetter(c)||Character.isWhitespace(c)||Character.isISOControl(c)){            
+
+        if(Character.isLetter(c)||Character.isWhitespace(c)||Character.isISOControl(c)){
             jTextField6.setEditable(true);
         }else
         {
@@ -1113,9 +1124,54 @@ public class Register extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTextField6KeyPressed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+    private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
+
+    }//GEN-LAST:event_jTextField3KeyPressed
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jTextField2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyPressed
+        // TODO add your handling code here:
+        String ContactNo = jTextField2.getText();
+        int length = ContactNo.length();
+
+        char c = evt.getKeyChar();
+
+        if(evt.getKeyChar()>='0' && evt.getKeyChar()<='9'){
+            if(length<10){
+                jTextField2.setEditable(true);
+                jLabel13.setText(null);
+            }else {
+                jTextField2.setEditable(false);
+                jLabel13.setText("only numbers are allowed");
+            }
+        }else
+        {
+            if(evt.getExtendedKeyCode()==KeyEvent.VK_BACK_SPACE|| evt.getExtendedKeyCode()==KeyEvent.VK_DELETE){
+                jTextField2.setEditable(true);
+                jLabel13.setText(null);
+            }else{
+                jLabel13.setText("only numbers are allowed");
+                jTextField2.setEditable(false);
+            }
+        }
+    }//GEN-LAST:event_jTextField2KeyPressed
+
+    private void jTextField3FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField3FocusLost
+        // TODO add your handling code here:
+        String emailId = jTextField3.getText();
+        Pattern emailPattern = Pattern.compile("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
+        Boolean isMatch = emailPattern.matcher(emailId).matches();
+        
+        if(isMatch == true){
+            jLabel13.setText(null);
+        }else{
+             jLabel13.setText(emailId + " is not a valid email id");
+        }
+    }//GEN-LAST:event_jTextField3FocusLost
     
     /**
      * @param args the command line arguments
