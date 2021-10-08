@@ -939,8 +939,8 @@ public class BillingAndInvoice extends javax.swing.JFrame {
         String quantity = jTextField10.getText();
         if(quantity.length() == 0)return;
         String requiredQuantity = jLabel18.getText().replace("/", " ").trim();
-        int pricePerQuantity = Integer.parseInt(jTextField11.getText());
-        int amount = Integer.parseInt(quantity) * pricePerQuantity ;
+        Float pricePerQuantity = Float.parseFloat(jTextField11.getText());
+        Float amount = Integer.parseInt(quantity) * pricePerQuantity ;
         int availability = Integer.parseInt(requiredQuantity);
         
         if(Integer.parseInt(quantity) > availability || Integer.parseInt(quantity) == 0){
