@@ -629,14 +629,6 @@ public class DistributorList extends javax.swing.JFrame {
 
     private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1KeyPressed
-
-    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
-        // TODO add your handling code here:
-        String blacklistedKeys = "16 17 18 10";
-        String keyCode = Integer.toString(evt.getKeyCode());
-        if(blacklistedKeys.contains(keyCode)) return;
-        
         model.setRowCount(0);
         
         Connection conn = null;
@@ -674,6 +666,10 @@ public class DistributorList extends javax.swing.JFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
         }
+    }//GEN-LAST:event_jTextField1KeyPressed
+
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1KeyReleased
     
     /**
