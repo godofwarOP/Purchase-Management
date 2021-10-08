@@ -211,6 +211,7 @@ public class GRN extends javax.swing.JFrame {
 
         jLabel13.setText("Damaged Product :");
 
+        jTextField10.setEditable(false);
         jTextField10.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextField10FocusLost(evt);
@@ -227,6 +228,7 @@ public class GRN extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setForeground(new java.awt.Color(255, 0, 51));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
@@ -265,13 +267,17 @@ public class GRN extends javax.swing.JFrame {
                         .addGap(112, 112, 112)
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jPanel10Layout.createSequentialGroup()
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                                    .addComponent(jLabel13)
+                                    .addGap(26, 26, 26)
+                                    .addComponent(jTextField10)
+                                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(jPanel10Layout.createSequentialGroup()
                                     .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(jPanel10Layout.createSequentialGroup()
+                                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(jPanel10Layout.createSequentialGroup()
                                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -284,12 +290,7 @@ public class GRN extends javax.swing.JFrame {
                                             .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                 .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
                                                 .addComponent(jTextField8))))
-                                    .addContainerGap(124, Short.MAX_VALUE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                                    .addComponent(jLabel13)
-                                    .addGap(26, 26, 26)
-                                    .addComponent(jTextField10)
-                                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addContainerGap(124, Short.MAX_VALUE)))
                             .addGroup(jPanel10Layout.createSequentialGroup()
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(269, Short.MAX_VALUE))))
@@ -315,8 +316,9 @@ public class GRN extends javax.swing.JFrame {
                     .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(15, 15, 15)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -439,6 +441,7 @@ public class GRN extends javax.swing.JFrame {
 
     private void jTextField9FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField9FocusLost
         // TODO add your handling code here:
+        jLabel2.setText("");
         String invoiceNo = jTextField9.getText();
         if(invoiceNo.length() == 0){
             return;
@@ -449,6 +452,19 @@ public class GRN extends javax.swing.JFrame {
         ResultSet rst = null;
         
         try {
+            //clear all text fields
+            jTextField5.setText("");
+            jTextField2.setText("");
+            jTextField3.setText("");
+            jTextField6.setText("");
+            jTextField8.setText("");
+            jTextField12.setText("");
+            jTextField4.setText("");
+            jTextField7.setText("");
+            jTextField10.setText("");
+            jTextField11.setText("");
+            
+            
             conn = DriverManager.getConnection(constant.DB_STRING);
             statement = conn.createStatement();
             
@@ -456,10 +472,18 @@ public class GRN extends javax.swing.JFrame {
             rst = statement.executeQuery(check);
             
             if(rst.getInt("EXISTS(SELECT 1 FROM "+ constant.TRANSACTION_TABLE_NAME +" WHERE "+ constant.TRANSACTION_PO_INVOICE +" = "+ invoiceNo +")") == 0){
+                String checkForTransaction = "SELECT EXISTS(SELECT 1 FROM "+ constant.BILLING_TABLE_NAME +" WHERE "+ constant.BILLING_PO_INVOICE +" = "+ invoiceNo +")";
+                rst = statement.executeQuery(checkForTransaction);
+                
+                if(rst.getInt("EXISTS(SELECT 1 FROM "+ constant.BILLING_TABLE_NAME +" WHERE "+ constant.BILLING_PO_INVOICE +" = "+ invoiceNo +")") == 0){
+                    jTextField10.setEditable(false);
+                    jLabel2.setText("Invoice dosen't exists");
+                    return;
+                }
                 
                 String sql = "Select * from "+ constant.BILLING_TABLE_NAME +" where "+ constant.BILLING_PO_INVOICE +" = " + invoiceNo ;
                 rst = statement.executeQuery(sql);
-            
+                
                 String distributorName = null;
                 String productName = null;
             
@@ -480,13 +504,12 @@ public class GRN extends javax.swing.JFrame {
                     jTextField3.setText(rst.getString(constant.PRODUCT_DISTRIBUTOR_NAME));
                     jTextField12.setText(rst.getString(constant.PRODUCT_PRICE));
                 }
-               
-            
+                
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
                 Date date = new Date(); 
                 String creationDate = formatter.format(date);
                 jTextField5.setText(creationDate);
-                
+                jTextField10.setEditable(true);
             }else{
                 jLabel2.setText("Transaction already exists");
             }
@@ -520,22 +543,22 @@ public class GRN extends javax.swing.JFrame {
         
         int quantity = Integer.parseInt(jTextField4.getText()) ;
         int damagedProduct = Integer.parseInt(jTextField10.getText());
-        int pricePerQuantity = Integer.parseInt(jTextField12.getText());
+        Float pricePerQuantity = Float.parseFloat(jTextField12.getText());
         int balance = Integer.parseInt(jTextField8.getText());
         
         if(damagedProduct > quantity){
             jLabel2.setText("Damaged product cannot be greater than ordered quantity");
         }else{
-            int deductedCost = damagedProduct * pricePerQuantity;
-            jTextField7.setText(Integer.toString(deductedCost));
+            Float deductedCost = damagedProduct * pricePerQuantity;
+            jTextField7.setText(Float.toString(deductedCost));
             
-            int totalAmount = balance - deductedCost;
+            Float totalAmount = balance - deductedCost;
             if(deductedCost > balance){
-                int totalAmountInPositive = deductedCost - balance;
-                jTextField11.setText(Integer.toString(totalAmount));
+                Float totalAmountInPositive = deductedCost - balance;
+                jTextField11.setText(Float.toString(totalAmount));
                 jLabel2.setText(totalAmountInPositive + " has to be refund");
             }else{
-                jTextField11.setText(Integer.toString(totalAmount));
+                jTextField11.setText(Float.toString(totalAmount));
                 jLabel2.setText(totalAmount + " has to be paid");
             }
         }
