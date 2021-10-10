@@ -768,7 +768,7 @@ public class BillingAndInvoice extends javax.swing.JFrame {
             statement.execute(sql);
             JOptionPane.showMessageDialog(rootPane, "Succesfully created Invoice");
             
-            String sql1 = "Update " + constant.PRODUCT_TABLE_NAME + " Set " + constant.PRODUCT_AVAILABILITY  + " = '" + availableProduct + "'";
+            String sql1 = "Update " + constant.PRODUCT_TABLE_NAME + " Set " + constant.PRODUCT_AVAILABILITY  + " = '" + availableProduct + "' WHERE " + constant.PRODUCT_NAME + " = '" +  productName + "' AND " + constant.PRODUCT_DISTRIBUTOR_ID + " = '" + distributorId + "'";
             statement.execute(sql1);
             
             statement.close();
